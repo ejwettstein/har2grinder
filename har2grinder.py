@@ -84,6 +84,7 @@ def main():
     # Set default option values if not defined in settings.py
     EXCLUDED_DOMAINS = getattr(settings, 'EXCLUDED_DOMAINS', ())
     SLEEP_BETWEEN_PAGES = getattr(settings, 'SLEEP_BETWEEN_PAGES', 3000)
+    FIRST_PAGE_NUMBER = getattr(settings, 'FIRST_PAGE_NUMBER', 0)	
 
     # Load HAR input file
     input_file_name = args[0]
@@ -109,7 +110,7 @@ def main():
     instruments_section = ''
 
     # Process data from loaded HAR file
-    page_number = 0
+    page_number = FIRST_PAGE_NUMBER
     for page in har_data.get('log').get('pages'):
         page_number += 1
         page['grinder'] = {}
@@ -170,7 +171,7 @@ def main():
 
     header_library_section += ']\n'
 
-    page_number = 0
+    page_number = FIRST_PAGE_NUMBER
     for page in har_data.get('log').get('pages'):
         page_number += 1
 
@@ -179,7 +180,7 @@ def main():
         page_section += "    def page%i(self):\n        %s\n" \
                         % (page_number, function_code)
 
-        if page_number == 1:
+        if page_number == (FIRST_PAGE_NUMBER + 1):
             call_section += '        self.page%i()\n' % (page_number, )
         else:
             call_section += '        grinder.sleep(%i)\n        self.page%i()\n' % (SLEEP_BETWEEN_PAGES, page_number)

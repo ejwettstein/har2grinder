@@ -6,3 +6,6 @@ EXCLUDED_DOMAINS = (
     'code.angularjs.org', 
     'code.jquery.com',
 )
+
+FIRST_PAGE_NUMBER = 0
+

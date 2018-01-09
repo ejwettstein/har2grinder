@@ -47,6 +47,7 @@ Currently supported options:
 
 * `SLEEP_BETWEEN_PAGES` - the time which Grinder will wait after loading the first page before proceeding to the next [milliseconds].
 * `EXCLUDED_DOMAINS` - a tuple, which list domains for files hosted by external CDNs, which are not part of your test.
+* `FIRST_PAGE_NUMBER` - first page number (-1) to use for this HAR.
 
 
 Known limitations
