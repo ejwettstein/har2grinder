@@ -177,6 +177,7 @@ def main():
 
         test_number = page.get('grinder').get('test_number')
         function_code = page.get('grinder').get('function_code')[8:]
+        page_section += "    # %s\n" % page.get('title')
         page_section += "    def page%i(self):\n        %s\n" \
                         % (page_number, function_code)
 
