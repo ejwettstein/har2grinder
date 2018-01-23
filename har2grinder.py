@@ -89,7 +89,7 @@ def main():
     # Load HAR input file
     input_file_name = args[0]
     try:
-        input_file = open(input_file_name, 'r')
+        input_file = open(input_file_name, 'r', encoding='utf-8')
         input_json = input_file.read()
     except IOError:
         print('Error: could not open ' + input_file_name + ' for reading. Exiting.')
@@ -109,9 +109,11 @@ def main():
     call_section = ''
     instruments_section = ''
 
+    ordered_pages = sorted(har_data.get('log').get('pages'), key=lambda p: int(p['id'].replace("page_", "")))
+	
     # Process data from loaded HAR file
     page_number = FIRST_PAGE_NUMBER
-    for page in har_data.get('log').get('pages'):
+    for page in ordered_pages:
         page_number += 1
         page['grinder'] = {}
         page['grinder']['entries'] = []
@@ -172,12 +174,13 @@ def main():
     header_library_section += ']\n'
 
     page_number = FIRST_PAGE_NUMBER
-    for page in har_data.get('log').get('pages'):
+    for page in ordered_pages:
         page_number += 1
 
         test_number = page.get('grinder').get('test_number')
         function_code = page.get('grinder').get('function_code')[8:]
         page_section += "    # %s\n" % page.get('title')
+        page_section += "    # %s\n" % page.get('id')
         page_section += "    def page%i(self):\n        %s\n" \
                         % (page_number, function_code)
 
