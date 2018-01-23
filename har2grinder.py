@@ -129,6 +129,9 @@ def main():
 
     entries = har_data.get('log').get('entries')
     for entry in entries:
+        cache = entry.get('_fromCache')
+        if cache in ["memory", "disk"]:
+            continue
         request = entry.get('request')
         response = entry.get('response')
         url = request.get('url')
