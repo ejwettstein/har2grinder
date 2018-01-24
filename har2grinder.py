@@ -30,6 +30,8 @@ def prepare_entry_headers(entry, header_to_libidx, header_lib):
         # name,value tuples. header_to_libidx is a dictionary mapping
         # from each header tuple to its index in the header_lib
         name_val = header.get('name'), header.get('value')
+        if name_val[0] not in ["accept-encoding", "accept-language", "content-type", "accept", "user-agent"]:
+            continue
         if name_val not in header_to_libidx:
             header_lib.append(name_val)
             libidx = len(header_lib) - 1
